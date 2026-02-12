@@ -3,11 +3,33 @@
  * Displays the list of activity recommendations or empty state
  *
  * @param {Array} activities - Array of activity objects to display
+ * @param {boolean} loading - Whether search is in progress
+ * @param {string} error - Error message if search failed
  */
 
 import ActivityCard from './ActivityCard';
+import LoadingSpinner from './LoadingSpinner';
 
-function ResultsList({ activities }) {
+function ResultsList({ activities, loading, error }) {
+  // Loading state
+  if (loading) {
+    return <LoadingSpinner />;
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <div className="error-container">
+        <div className="error-icon">❌</div>
+        <h2>Oops! Something went wrong</h2>
+        <p className="error-message">{error}</p>
+        <p className="error-suggestion">
+          Please try again or adjust your search criteria.
+        </p>
+      </div>
+    );
+  }
+
   // Empty state - no activities to display
   if (!activities || activities.length === 0) {
     return (
